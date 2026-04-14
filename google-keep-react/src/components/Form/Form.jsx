@@ -4,15 +4,24 @@ import "./Form.css";
 const Form = () => {
   // Two-way binding. Listening for the change and also updating it
   // Two-way binding in React involves keeping the state of form inputs in sync with the UI.
+
   const [title, setTitle] = useState("");
+  const [text, setText] = useState("");
+
   const titleChangeHandler = (event) => {
     setTitle(event.target.value);
   };
+
+  const textChangeHandler = (event) => {
+    setText(event.target.value);
+  };
+  console.log(text);
 
   const submitFormHandler = (event) => {
     event.preventDefault();
     // will add data to array
     setTitle("");
+    setText("");
   };
 
   return (
@@ -52,6 +61,8 @@ const Form = () => {
             placeholder="Title"
           />
           <input
+            onChange={textChangeHandler}
+            value={text}
             id="note-text"
             type="text"
             className="note-text"
