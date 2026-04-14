@@ -1,37 +1,37 @@
+import React, { useState } from "react";
+
 import Navbar from "./components/Navbar/Navbar";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Form from "./components/Form/Form";
 import Modal from "./components/Modal/Modal";
 import Notes from "./components/Notes/Notes";
 
+const NOTES = [
+  // {
+  //   id: "a123",
+  //   title: "different title one (1)",
+  //   text: "some text1",
+  // },
+  // {
+  //   id: "a122",
+  //   title: "different title one 21)",
+  //   text: "some text2",
+  // },
+];
+
 function App() {
-  const notes = [
-    {
-      id: "a123",
-      title: "different title one (1)",
-      text: "some text1",
-    },
-    {
-      id: "a123",
-      title: "different title two (2)",
-      text: "some text2",
-    },
-    {
-      id: "a123",
-      title: "some title (3)",
-      text: "some text3",
-    },
-    {
-      id: "a123",
-      title: "some title (4)",
-      text: "some text4",
-    },
-  ];
+  const [notes, setNotes] = useState(NOTES);
+
+  const addNote = (note) =>
+    setNotes((prevNotes) => {
+      return [...prevNotes, note];
+    });
+
   return (
     <div>
       <Navbar />
       <Sidebar />
-      <Form />
+      <Form addNote={addNote} />
       <Modal />
       <Notes notes={notes} />
     </div>
