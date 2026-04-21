@@ -1,27 +1,49 @@
 import React, { useState } from "react";
+// import Modal from "../Modal/Modal";
 
 const Note = (props) => {
-  const [title, setTitle] = useState(props.title);
+  const { toggleModal, note, setSelectedNote } = props;
 
-  let text = props.text;
+  const [title, setTitle] = useState(note.title);
+  const [text, setText] = useState(note.text);
+  const [hoverActive, setHoverActive] = useState(false);
 
   const noteClickHandler = () => {
-    setTitle("changed Title with State");
+    toggleModal();
+    setSelectedNote();
+  };
+
+  const noteMouseOverHandler = () => {
+    setHoverActive(true);
+  };
+  const noteMouseOutHandler = () => {
+    setHoverActive(false);
+  };
+  const deleteHandler = () => {
+    props.deleteNote(note.id);
   };
 
   return (
     <div
       className="note"
-      id="${note.id}"
+      id={props.id}
       onClick={noteClickHandler}
-      // onmouseover="" onmouseout=""
+      onMouseOver={noteMouseOverHandler}
+      onMouseOut={noteMouseOutHandler}
     >
-      <span className="material-symbols-outlined check-circle">
-        check_circle
-      </span>
+      {hoverActive && (
+        <span className="material-symbols-outlined check-circle">
+          check_circle
+        </span>
+      )}
+
       <div className="title">{title}</div>
       <div className="text">{text}</div>
-      <div className="note-footer">
+
+      <div
+        className="note-footer"
+        style={{ visibility: hoverActive ? "visible" : "hidden" }}
+      >
         <div className="tooltip">
           <span className="material-symbols-outlined hover small-icon">
             add_alert
@@ -46,7 +68,7 @@ const Note = (props) => {
           </span>
           <span className="tooltip-text">Add Image</span>
         </div>
-        <div className="tooltip">
+        <div className="tooltip" onClick={deleteHandler}>
           <span className="material-symbols-outlined hover small-icon archive">
             archive
           </span>

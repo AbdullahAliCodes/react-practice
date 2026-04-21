@@ -6,34 +6,42 @@ import Form from "./components/Form/Form";
 import Modal from "./components/Modal/Modal";
 import Notes from "./components/Notes/Notes";
 
-const NOTES = [
-  // {
-  //   id: "a123",
-  //   title: "different title one (1)",
-  //   text: "some text1",
-  // },
-  // {
-  //   id: "a122",
-  //   title: "different title one 21)",
-  //   text: "some text2",
-  // },
-];
+const NOTES = [];
 
 function App() {
   const [notes, setNotes] = useState(NOTES);
+  const [selectedNote, setSelectedNote] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const addNote = (note) =>
     setNotes((prevNotes) => {
       return [...prevNotes, note];
     });
 
+  const deleteNote = (id) => {
+    setNotes((prevNotes) => {
+      return prevNotes.filter((note) => {
+        return id !== note.id;
+      });
+    });
+  };
+
+  const toggleModal = () => {
+    setIsModalOpen((prevState) => !prevState);
+  };
+
   return (
     <div>
       <Navbar />
       <Sidebar />
       <Form addNote={addNote} />
-      <Modal />
-      <Notes notes={notes} />
+      <Modal isModalOpen={isModalOpen} selectedNote={selectedNote} />
+      <Notes
+        notes={notes}
+        deleteNote={deleteNote}
+        toggleModal={toggleModal}
+        setSelectedNote={setSelectedNote}
+      />
     </div>
   );
 }
