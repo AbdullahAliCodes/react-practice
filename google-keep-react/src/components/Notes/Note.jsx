@@ -4,13 +4,11 @@ import React, { useState } from "react";
 const Note = (props) => {
   const { toggleModal, note, setSelectedNote } = props;
 
-  const [title, setTitle] = useState(note.title);
-  const [text, setText] = useState(note.text);
   const [hoverActive, setHoverActive] = useState(false);
 
   const noteClickHandler = () => {
     toggleModal();
-    setSelectedNote();
+    setSelectedNote(note);
   };
 
   const noteMouseOverHandler = () => {
@@ -37,8 +35,8 @@ const Note = (props) => {
         </span>
       )}
 
-      <div className="title">{title}</div>
-      <div className="text">{text}</div>
+      <div className="title">{note.title}</div>
+      <div className="text">{note.text}</div>
 
       <div
         className="note-footer"

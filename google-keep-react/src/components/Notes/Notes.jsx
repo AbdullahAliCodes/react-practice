@@ -10,9 +10,9 @@ const Notes = (props) => {
       {notes.length === 0 ? (
         <p>Notes you add appear here.</p>
       ) : (
-        notes.map((note, index) => (
+        notes.map((note) => (
           <Note
-            key={index}
+            key={note.id}
             note={note}
             deleteNote={deleteNote}
             toggleModal={toggleModal}

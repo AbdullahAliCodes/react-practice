@@ -12,11 +12,27 @@ function App() {
   const [notes, setNotes] = useState(NOTES);
   const [selectedNote, setSelectedNote] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [cursorOnModal, setCursorOnModal] = useState(false);
 
   const addNote = (note) =>
     setNotes((prevNotes) => {
       return [...prevNotes, note];
     });
+
+  const editNote = (editedNote) => {
+    setNotes((prevNotes) => {
+      return prevNotes.map((note) => {
+        if (editedNote.id === note.id) {
+          return {
+            ...note,
+            title: editedNote.title,
+            text: editedNote.text,
+          };
+        }
+        return note;
+      });
+    });
+  };
 
   const deleteNote = (id) => {
     setNotes((prevNotes) => {
@@ -35,13 +51,21 @@ function App() {
       <Navbar />
       <Sidebar />
       <Form addNote={addNote} />
-      <Modal isModalOpen={isModalOpen} selectedNote={selectedNote} />
       <Notes
         notes={notes}
         deleteNote={deleteNote}
         toggleModal={toggleModal}
         setSelectedNote={setSelectedNote}
       />
+      {isModalOpen && (
+        <Modal
+          isModalOpen={isModalOpen}
+          selectedNote={selectedNote}
+          toggleModal={toggleModal}
+          setCursorOnModal={setCursorOnModal}
+          editNote={editNote}
+        />
+      )}
     </div>
   );
 }

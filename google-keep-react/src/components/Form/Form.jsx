@@ -8,9 +8,9 @@ const Form = (props) => {
 
   // console.log(props);
 
-  const { edit } = props;
-  const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
+  const { edit, selectedNote, toggleModal } = props;
+  const [title, setTitle] = useState((edit && selectedNote.title) || "");
+  const [text, setText] = useState((edit && selectedNote.text) || "");
   const [isActiveForm, setIsActiveForm] = useState(edit);
 
   const titleChangeHandler = (event) => setTitle(event.target.value);
@@ -22,16 +22,26 @@ const Form = (props) => {
 
   const submitFormHandler = (event) => {
     event.preventDefault();
-    const note = {
-      id: uid(),
-      title,
-      text,
-    };
-    // Child to Parent communication using prop function
-    props.addNote(note);
+
+    if (!edit) {
+      // Child to Parent communication using prop function
+      props.addNote({
+        id: uid(),
+        title,
+        text,
+      });
+      setIsActiveForm(false);
+    } else {
+      props.editNote({
+        id: selectedNote.id,
+        title,
+        text,
+      });
+      toggleModal();
+    }
+
     setTitle("");
     setText("");
-    setIsActiveForm(false);
   };
 
   // If you want to store the form data in an object (some codebases use this method)
