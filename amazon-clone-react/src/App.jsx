@@ -1,7 +1,8 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./components/Home";
 import Products from "./components/Products";
+import ProductDetails from "./components/ProductDetails";
 import Header from "./components/layout/Header";
 
 const App = () => {
@@ -10,8 +11,14 @@ const App = () => {
       <Header />
       <main>
         <Routes>
-          <Route path="/home" element={<Home />} />
+          {/* Redirect Users to Home page from "/" */}
+          <Route path="/" element={<Navigate to="/home" replace />}></Route>
+          <Route path="/home" element={<Home />}>
+            <Route path="username" element={<p>Welcome username!</p>}></Route>
+          </Route>
           <Route path="/products" element={<Products />} />
+          <Route path="/products/:id" element={<ProductDetails />} />
+          <Route path="/sign-in"></Route>
         </Routes>
       </main>
     </div>
@@ -19,7 +26,3 @@ const App = () => {
 };
 
 export default App;
-
-// what we want
-// ourdomain.com/ -> home screen or home component
-// ourdomain.com/products -> products list component
