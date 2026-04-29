@@ -4,6 +4,11 @@ import Home from "./components/Home";
 import Products from "./components/Products";
 import ProductDetails from "./components/ProductDetails";
 import Header from "./components/layout/Header";
+import SignIn from "./components/SignIn";
+import Cart from "./components/Cart";
+import Orders from "./components/Orders";
+import Prime from "./components/Prime";
+import NotFound from "./components/NotFound";
 
 const App = () => {
   return (
@@ -18,7 +23,12 @@ const App = () => {
           </Route>
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetails />} />
-          <Route path="/sign-in"></Route>
+          <Route path="/sign-in" element={<SignIn />}></Route>
+          <Route path="/cart" element={<Cart />}></Route>
+          <Route path="/orders" element={<Orders />}></Route>
+          <Route path="/prime" element={<Prime />}></Route>
+          {/* Has to be the last Route */}
+          <Route path="*" element={<NotFound />}></Route>
         </Routes>
       </main>
     </div>
