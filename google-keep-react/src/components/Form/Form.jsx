@@ -1,9 +1,12 @@
 import { uid } from "uid";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { ThemeContext } from "../../context/ThemeContext";
+import { resolveNoteColor } from "../../utils/resolveNoteColor";
 import "./Form.css";
 
 const Form = (props) => {
   const { edit, selectedNote, toggleModal } = props;
+  const { theme } = useContext(ThemeContext);
   const [title, setTitle] = useState((edit && selectedNote.title) || "");
   const [text, setText] = useState((edit && selectedNote.text) || "");
   const [isActiveForm, setIsActiveForm] = useState(edit);
@@ -93,10 +96,16 @@ const Form = (props) => {
     // based on the state, output the correct form
     <div>
       <div
-        className={`form-container${edit ? " form-container--modal" : ""}`}
+        className={`form-container${edit ? " form-container--modal" : ""}${
+          !edit && isActiveForm ? " form-container--expanded" : ""
+        }`}
         onClick={formClickHandler}
         style={{
-          background: edit ? selectedNote?.backgroundColor ?? "#fff" : "#fff",
+          background: edit
+            ? resolveNoteColor(selectedNote?.backgroundColor, theme)
+            : theme === "dark"
+              ? "#202124"
+              : "#fff",
         }}
       >
         <form onSubmit={submitFormHandler} className="form">

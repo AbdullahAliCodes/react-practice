@@ -7,12 +7,10 @@
 
 /* Composer only — card look; background from inline or default white */
 .form-container:not(.form-container--modal) {
-  background: #fff;
+  background: var(--surface);
   margin: 32px auto;
-  border: 1px solid #e0e1e0;
-  box-shadow:
-    0 1px 2px 0 rgba(60, 64, 67, 0.302),
-    0 2px 6px 2px rgba(60, 64, 67, 0.149);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-1);
 }
 
 /* Modal: no card border/shadow/white fill — only inline note color (avoids white halo) */
@@ -31,7 +29,7 @@
   justify-content: space-between;
   align-items: center;
   height: 100%;
-  color: #5f6368;
+  color: var(--muted);
 }
 
 .note-text {
@@ -45,6 +43,7 @@
   width: 100%;
   margin-right: 10px;
   padding-left: 10px;
+  color: var(--text);
 }
 
 .note-title {
@@ -58,6 +57,12 @@
   width: 100%;
   margin-right: 10px;
   padding-left: 10px;
+  color: var(--text);
+}
+
+.note-title::placeholder,
+.note-text::placeholder {
+  color: var(--muted);
 }
 
 .form-actions {
@@ -83,44 +88,55 @@
   margin-top: 5px;
 }
 
-/* Modal typography — align with Google Keep note modal */
-.form-container--modal .form {
+/* Expanded composer + modal: typography & footer (Google Keep–aligned) */
+.form-container--modal .form,
+.form-container--expanded .form {
   padding: 16px 20px 12px;
 }
 
-.form-container--modal .note-title {
+.form-container--expanded {
+  min-height: 131px;
+}
+
+.form-container--modal .note-title,
+.form-container--expanded .note-title {
   margin: 0;
   padding: 4px 2px 8px;
   font-size: 1.125rem;
   font-weight: 500;
   line-height: 1.5;
   letter-spacing: 0.00625em;
-  color: #202124;
+  color: var(--text);
 }
 
-.form-container--modal .note-text {
+.form-container--modal .note-text,
+.form-container--expanded .note-text {
   margin: 0;
   padding: 4px 2px 8px;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5;
   letter-spacing: 0.0142857143em;
-  color: #202124;
+  color: var(--text);
 }
 
 .form-container--modal .note-title::placeholder,
-.form-container--modal .note-text::placeholder {
-  color: rgba(32, 33, 36, 0.55);
+.form-container--modal .note-text::placeholder,
+.form-container--expanded .note-title::placeholder,
+.form-container--expanded .note-text::placeholder {
+  color: var(--muted);
 }
 
-.form-container--modal .form-actions {
+.form-container--modal .form-actions,
+.form-container--expanded .form-actions {
   margin-top: 12px;
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.form-container--modal .form-actions .icons {
+.form-container--modal .form-actions .icons,
+.form-container--expanded .form-actions .icons {
   flex: 1 1 auto;
   flex-wrap: wrap;
   align-items: center;
@@ -128,14 +144,16 @@
   min-width: 0;
 }
 
-.form-container--modal .form-actions .icons .tooltip {
+.form-container--modal .form-actions .icons .tooltip,
+.form-container--expanded .form-actions .icons .tooltip {
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
-.form-container--modal .form-actions .icons .material-symbols-outlined {
-  color: #1c1e1f;
+.form-container--modal .form-actions .icons .material-symbols-outlined,
+.form-container--expanded .form-actions .icons .material-symbols-outlined {
+  color: var(--icon);
   font-size: 18px;
   padding: 6px;
   font-variation-settings:
@@ -145,11 +163,13 @@
     "opsz" 24;
 }
 
-.form-container--modal .form-actions .icons .hover:hover {
-  color: #1c1e1f;
+.form-container--modal .form-actions .icons .hover:hover,
+.form-container--expanded .form-actions .icons .hover:hover {
+  color: var(--icon);
 }
 
-.form-container--modal .close-btn {
+.form-container--modal .close-btn,
+.form-container--expanded .close-btn {
   flex-shrink: 0;
   margin-left: auto;
   font-family: "Google Sans", sans-serif;
@@ -157,22 +177,24 @@
   font-weight: 500;
   line-height: 1.25rem;
   letter-spacing: 0.0178571429em;
-  color: #202124;
+  color: var(--text);
   background: none;
   border: none;
   border-radius: 4px;
-  padding: 8px 25px;
+  padding: 8px 12px;
   cursor: pointer;
   text-transform: none;
   transition: background-color 0.15s ease;
 }
 
-.form-container--modal .close-btn:hover {
-  background-color: rgba(60, 64, 67, 0.08);
+.form-container--modal .close-btn:hover,
+.form-container--expanded .close-btn:hover {
+  background-color: var(--surface-hover);
 }
 
-.form-container--modal .close-btn:active {
-  background-color: rgba(60, 64, 67, 0.12);
+.form-container--modal .close-btn:active,
+.form-container--expanded .close-btn:active {
+  background-color: var(--surface-hover);
 }
 
 .form-inline {
@@ -205,6 +227,6 @@
 }
 
 .small-icon {
-  color: black;
+  color: var(--icon);
   font-size: 1.1rem;
 }

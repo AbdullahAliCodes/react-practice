@@ -6,9 +6,9 @@
   display: flex;
   flex-direction: column;
   margin: 5px 20px 0 5px;
-  color: #5f6368;
+  color: var(--muted);
   width: 60px;
-  height: 100%;
+  height: calc(100% - 64px);
   overflow-x: hidden;
   transition: 0.3s;
 }
@@ -19,20 +19,8 @@
 }
 
 .sidebar-hover {
-  box-shadow:
-    0 1px 2px 0 rgba(60, 64, 67, 0.302),
-    0 2px 6px 2px rgba(60, 64, 67, 0.149);
-  background-color: white;
-}
-
-.active {
-  width: 100px;
-  background-color: #fef0c3;
-  border-radius: 50%;
-  color: black;
-}
-.active:hover {
-  background-color: #fef0c3;
+  box-shadow: var(--shadow-1);
+  background-color: var(--surface);
 }
 
 .sidebar .sidebar-item {
@@ -44,29 +32,63 @@
 }
 
 .sidebar-item .sidebar-text {
-  color: black;
-  font-size: 0.9rem;
+  font-family: "Google Sans", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  letter-spacing: 0.00625em;
+  color: var(--text);
   width: 250px;
 }
+/* Same icon column width on every row so labels line up */
 .sidebar-item .material-symbols-outlined {
   margin: 0 18px 0 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  padding: 8px;
+  box-sizing: border-box;
+  color: var(--muted);
+}
+
+/* Collapsed sidebar: yellow circle behind active icon only */
+.sidebar-item .material-symbols-outlined.active {
+  background-color: var(--sidebar-active);
+  border-radius: 50%;
+  color: var(--sidebar-active-text);
+}
+
+.sidebar-item .material-symbols-outlined.active:hover {
+  background-color: var(--sidebar-active);
+}
+
+/* Expanded row already uses full-bar yellow — drop inner circle so we don’t double-fill */
+.sidebar-active-item .material-symbols-outlined.active {
+  background-color: transparent;
 }
 
 .sidebar-item:nth-child(1) {
   margin-top: 5px;
 }
 .sidebar-item:hover {
-  background-color: #f1f3f4;
-  border-top-right-radius: 25px;
-  border-top-left-radius: 25px;
-  border-bottom-right-radius: 25px;
-  border-bottom-left-radius: 25px;
+  background-color: var(--surface-hover);
+  border-radius: 0 25px 25px 0;
 }
 .sidebar-active-item {
-  background: #fef0c3;
+  background: var(--sidebar-active);
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
 }
 .sidebar-active-item:hover {
-  background-color: #fef0c3;
+  background-color: var(--sidebar-active);
+}
+
+/* Theme toggle: pinned to bottom of the sidebar, icon-only */
+.sidebar .theme-toggle {
+  margin-top: auto;
+  margin-bottom: 12px;
 }
