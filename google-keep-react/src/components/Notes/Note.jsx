@@ -10,7 +10,8 @@ import { resolveNoteColor } from "../../utils/resolveNoteColor";
 import "./Note.css";
 
 const Note = (props) => {
-  const { toggleModal, note, setSelectedNote, editNote, isOverlay } = props;
+  const { toggleModal, note, setSelectedNote, editNote, togglePin, isOverlay } =
+    props;
   const { theme } = useContext(ThemeContext);
 
   const [hoverActive, setHoverActive] = useState(false);
@@ -62,6 +63,11 @@ const Note = (props) => {
     setIsColourBoardActive((prevState) => !prevState);
   };
 
+  const pinHandler = (e) => {
+    e.stopPropagation();
+    if (togglePin) togglePin(note.id);
+  };
+
   const clearNoteColourHandler = (e) => {
     e.stopPropagation();
     editNote(note, "#fff");
@@ -86,6 +92,27 @@ const Note = (props) => {
       {hoverActive && !isOverlay && (
         <span className="material-symbols-outlined check-circle">
           check_circle
+        </span>
+      )}
+
+      {!isOverlay && (
+        <span
+          className={`material-symbols-outlined pin-btn${
+            note.pinned ? " pin-btn--pinned" : ""
+          }`}
+          onClick={pinHandler}
+          role="button"
+          tabIndex={0}
+          aria-label={note.pinned ? "Unpin note" : "Pin note"}
+          aria-pressed={!!note.pinned}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              pinHandler(e);
+            }
+          }}
+        >
+          push_pin
         </span>
       )}
 

@@ -29,6 +29,7 @@ const Form = (props) => {
           title,
           text,
           backgroundColor: "white",
+          pinned: false,
         });
       setIsActiveForm(false);
     } else {

@@ -25,12 +25,11 @@ const Notes = (props) => {
     setSelectedNote,
     editNote,
     reorderNotes,
+    togglePin,
   } = props;
 
   const [activeId, setActiveId] = useState(null);
-  const activeNote = activeId
-    ? notes.find((n) => n.id === activeId)
-    : null;
+  const activeNote = activeId ? notes.find((n) => n.id === activeId) : null;
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -57,6 +56,31 @@ const Notes = (props) => {
     );
   }
 
+  const pinnedNotes = notes.filter((n) => n.pinned);
+  const otherNotes = notes.filter((n) => !n.pinned);
+  const hasPinned = pinnedNotes.length > 0;
+
+  const noteProps = {
+    deleteNote,
+    toggleModal,
+    setSelectedNote,
+    editNote,
+    togglePin,
+  };
+
+  const renderList = (list) => (
+    <SortableContext
+      items={list.map((n) => n.id)}
+      strategy={rectSortingStrategy}
+    >
+      <div className="notes">
+        {list.map((note) => (
+          <Note key={note.id} note={note} {...noteProps} />
+        ))}
+      </div>
+    </SortableContext>
+  );
+
   return (
     <DndContext
       sensors={sensors}
@@ -65,33 +89,21 @@ const Notes = (props) => {
       onDragEnd={handleDragEnd}
       onDragCancel={handleDragCancel}
     >
-      <SortableContext
-        items={notes.map((n) => n.id)}
-        strategy={rectSortingStrategy}
-      >
-        <div className="notes">
-          {notes.map((note) => (
-            <Note
-              key={note.id}
-              note={note}
-              deleteNote={deleteNote}
-              toggleModal={toggleModal}
-              setSelectedNote={setSelectedNote}
-              editNote={editNote}
-            />
-          ))}
-        </div>
-      </SortableContext>
+      {hasPinned && (
+        <section className="notes-section">
+          <h2 className="notes-section-header">Pinned</h2>
+          {renderList(pinnedNotes)}
+        </section>
+      )}
+      {otherNotes.length > 0 && (
+        <section className="notes-section">
+          {hasPinned && <h2 className="notes-section-header">Others</h2>}
+          {renderList(otherNotes)}
+        </section>
+      )}
       <DragOverlay>
         {activeNote ? (
-          <Note
-            note={activeNote}
-            deleteNote={deleteNote}
-            toggleModal={toggleModal}
-            setSelectedNote={setSelectedNote}
-            editNote={editNote}
-            isOverlay
-          />
+          <Note note={activeNote} {...noteProps} isOverlay />
         ) : null}
       </DragOverlay>
     </DndContext>

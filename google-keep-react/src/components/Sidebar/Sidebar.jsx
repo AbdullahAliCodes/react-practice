@@ -7,12 +7,12 @@ const Sidebar = (props) => {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
-    <div className={isSidebarOpen ? "sidebar" : "sidebar sidebar-active"}>
+    <div className={isSidebarOpen ? "sidebar sidebar-active" : "sidebar"}>
       <div
         className={
           isSidebarOpen
-            ? "sidebar-item active-item"
-            : "sidebar-item sidebar-active-item"
+            ? "sidebar-item sidebar-active-item"
+            : "sidebar-item active-item"
         }
       >
         <span className="material-symbols-outlined active">lightbulb</span>

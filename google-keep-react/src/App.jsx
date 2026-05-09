@@ -66,6 +66,12 @@ function App() {
     );
   };
 
+  const togglePin = (id) => {
+    setNotes((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, pinned: !n.pinned } : n)),
+    );
+  };
+
   const reorderNotes = (activeId, overId) => {
     if (!overId || activeId === overId) return;
     setNotes((prev) => {
@@ -107,6 +113,7 @@ function App() {
             setSelectedNote={setSelectedNote}
             editNote={editNote}
             reorderNotes={reorderNotes}
+            togglePin={togglePin}
           />
         </div>
       </div>
