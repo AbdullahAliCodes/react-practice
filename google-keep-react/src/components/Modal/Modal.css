@@ -10,11 +10,13 @@
 }
 
 .modal .modal-content {
-  width: 589px;
+  width: min(589px, calc(100vw - 48px));
   position: relative;
   top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .open-modal {

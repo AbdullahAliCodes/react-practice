@@ -1,37 +1,61 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Navbar from "./components/Navbar/Navbar";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Form from "./components/Form/Form";
 import Modal from "./components/Modal/Modal";
 import Notes from "./components/Notes/Notes";
+// import { coloursLight, coloursDark } from "../../constants/NoteColours";
 
-const NOTES = [];
+import "./App.css";
 
 function App() {
-  const [notes, setNotes] = useState(NOTES);
+  const [notes, setNotes] = useState(() => {
+    try {
+      const raw = localStorage.getItem("notesArr");
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem("notesArr", JSON.stringify(notes));
+  }, [notes]);
+
   const [selectedNote, setSelectedNote] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cursorOnModal, setCursorOnModal] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prevState) => !prevState);
+  };
 
   const addNote = (note) =>
     setNotes((prevNotes) => {
       return [...prevNotes, note];
     });
 
-  const editNote = (editedNote) => {
-    setNotes((prevNotes) => {
-      return prevNotes.map((note) => {
-        if (editedNote.id === note.id) {
-          return {
-            ...note,
-            title: editedNote.title,
-            text: editedNote.text,
-          };
-        }
-        return note;
-      });
-    });
+  const editNote = (editedNote, colour) => {
+    setNotes((prevNotes) =>
+      prevNotes.map((note) => {
+        if (editedNote.id !== note.id) return note;
+
+        const nextBackgroundColor =
+          colour !== undefined && colour !== null
+            ? colour
+            : editedNote.backgroundColor ?? note.backgroundColor;
+
+        return {
+          ...note,
+          ...editedNote,
+          title: editedNote.title,
+          text: editedNote.text,
+          backgroundColor: nextBackgroundColor,
+        };
+      }),
+    );
   };
 
   const deleteNote = (id) => {
@@ -47,38 +71,37 @@ function App() {
   };
 
   return (
-    <div>
-      <Navbar />
-      <Sidebar />
-      <Form addNote={addNote} />
-      <Notes
-        notes={notes}
-        deleteNote={deleteNote}
-        toggleModal={toggleModal}
-        setSelectedNote={setSelectedNote}
-      />
-      {isModalOpen && (
-        <Modal
-          isModalOpen={isModalOpen}
-          selectedNote={selectedNote}
-          toggleModal={toggleModal}
-          setCursorOnModal={setCursorOnModal}
-          editNote={editNote}
-        />
-      )}
-    </div>
+    <>
+      <div className="navbar-area">
+        <Navbar toggleSidebar={toggleSidebar} />
+      </div>
+      <div className="main-area">
+        <div className="sidebar-area">
+          <Sidebar isSidebarOpen={isSidebarOpen} />
+        </div>
+        <div className="notes-grid">
+          <Form addNote={addNote} selectedNote={selectedNote} />
+          <Notes
+            notes={notes}
+            deleteNote={deleteNote}
+            toggleModal={toggleModal}
+            selectedNote={selectedNote}
+            setSelectedNote={setSelectedNote}
+            editNote={editNote}
+          />
+          {isModalOpen && (
+            <Modal
+              isModalOpen={isModalOpen}
+              selectedNote={selectedNote}
+              toggleModal={toggleModal}
+              setCursorOnModal={setCursorOnModal}
+              editNote={editNote}
+            />
+          )}
+        </div>
+      </div>
+    </>
   );
 }
 
 export default App;
-
-// Using Arrow functions vs Regular functions
-
-// regular functions are calleable and constructible
-// "this" inside a regular function is bound to the function
-// arrow functions only on return statement
-// which to use, depends on the context
-
-// More: arrow functions are a concise way to write function expressions
-// good for simple functions that you use only once
-// (parameters) => some code

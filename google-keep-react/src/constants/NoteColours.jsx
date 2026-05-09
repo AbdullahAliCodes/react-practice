@@ -1,0 +1,26 @@
+export const coloursDark = [
+  "#77172E",
+  "#692B18",
+  "#7C4B03",
+  "#264D3B",
+  "#0D625D",
+  "#266377",
+  "#284354",
+  "#482E5C",
+  "#6C394E",
+  "#4B443A",
+  "#232427",
+];
+export const coloursLight = [
+  "#FAAFA9",
+  "#F39F76",
+  "#FFF8B8",
+  "#E2F6D3",
+  "#B4DDD3",
+  "#D4E4ED",
+  "#AECCDC",
+  "#D3BFDB",
+  "#F6E2DD",
+  "#E9E3D4",
+  "#EFEFF1",
+];

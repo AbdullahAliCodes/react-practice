@@ -5,13 +5,17 @@
   top: 64px;
   display: flex;
   flex-direction: column;
-  margin-left: 18px;
-  margin-top: 5px;
+  margin: 5px 20px 0 5px;
   color: #5f6368;
   width: 60px;
   height: 100%;
   overflow-x: hidden;
-  transition: 0.8s;
+  transition: 0.3s;
+}
+
+.sidebar-active {
+  width: 200px;
+  transition: 0.3s;
 }
 
 .sidebar-hover {
@@ -22,6 +26,7 @@
 }
 
 .active {
+  width: 100px;
   background-color: #fef0c3;
   border-radius: 50%;
   color: black;
@@ -44,8 +49,7 @@
   width: 250px;
 }
 .sidebar-item .material-symbols-outlined {
-  margin-left: 8px;
-  margin-right: 18px;
+  margin: 0 18px 0 8px;
 }
 
 .sidebar-item:nth-child(1) {
@@ -54,7 +58,9 @@
 .sidebar-item:hover {
   background-color: #f1f3f4;
   border-top-right-radius: 25px;
+  border-top-left-radius: 25px;
   border-bottom-right-radius: 25px;
+  border-bottom-left-radius: 25px;
 }
 .sidebar-active-item {
   background: #fef0c3;

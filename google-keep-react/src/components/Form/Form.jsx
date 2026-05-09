@@ -3,11 +3,6 @@ import React, { useState } from "react";
 import "./Form.css";
 
 const Form = (props) => {
-  // Two-way binding. Listening for the change and also updating it
-  // Two-way binding in React involves keeping the state of form inputs in sync with the UI.
-
-  // console.log(props);
-
   const { edit, selectedNote, toggleModal } = props;
   const [title, setTitle] = useState((edit && selectedNote.title) || "");
   const [text, setText] = useState((edit && selectedNote.text) || "");
@@ -24,15 +19,18 @@ const Form = (props) => {
     event.preventDefault();
 
     if (!edit) {
-      // Child to Parent communication using prop function
-      props.addNote({
-        id: uid(),
-        title,
-        text,
-      });
+      title &&
+        text &&
+        props.addNote({
+          id: uid(),
+          title,
+          text,
+          backgroundColor: "white",
+        });
       setIsActiveForm(false);
     } else {
       props.editNote({
+        ...selectedNote,
         id: selectedNote.id,
         title,
         text,
@@ -94,7 +92,13 @@ const Form = (props) => {
   return (
     // based on the state, output the correct form
     <div>
-      <div className="form-container active-form" onClick={formClickHandler}>
+      <div
+        className={`form-container${edit ? " form-container--modal" : ""}`}
+        onClick={formClickHandler}
+        style={{
+          background: edit ? selectedNote?.backgroundColor ?? "#fff" : "#fff",
+        }}
+      >
         <form onSubmit={submitFormHandler} className="form">
           {isActiveForm && (
             <input
@@ -106,82 +110,95 @@ const Form = (props) => {
             />
           )}
 
-          <input
-            onChange={textChangeHandler}
-            value={text}
-            type="text"
-            className="note-text"
-            placeholder="Take a note..."
-          />
           {isActiveForm ? (
-            <div className="form-actions">
-              <div className="icons">
-                <div className="tooltip">
-                  <span className="material-symbols-outlined hover small-icon">
-                    add_alert
-                  </span>
-                  <span className="tooltip-text">Remind me</span>
+            <>
+              <input
+                onChange={textChangeHandler}
+                value={text}
+                type="text"
+                className="note-text"
+                placeholder="Take a note..."
+              />
+              <div className="form-actions">
+                <div className="icons">
+                  <div className="tooltip">
+                    <span className="material-symbols-outlined hover small-icon">
+                      palette
+                    </span>
+                    <span className="tooltip-text">Change Color</span>
+                  </div>
+                  <div className="tooltip">
+                    <span className="material-symbols-outlined hover small-icon">
+                      add_alert
+                    </span>
+                    <span className="tooltip-text">Remind me</span>
+                  </div>
+                  <div className="tooltip">
+                    <span className="material-symbols-outlined hover small-icon">
+                      person_add
+                    </span>
+                    <span className="tooltip-text">Collaborator</span>
+                  </div>
+                  <div className="tooltip">
+                    <span className="material-symbols-outlined hover small-icon">
+                      image
+                    </span>
+                    <span className="tooltip-text">Add Image</span>
+                  </div>
+                  <div className="tooltip">
+                    <span className="material-symbols-outlined hover small-icon">
+                      archive
+                    </span>
+                    <span className="tooltip-text">Archive</span>
+                  </div>
+                  <div className="tooltip">
+                    <span className="material-symbols-outlined hover small-icon">
+                      more_vert
+                    </span>
+                    <span className="tooltip-text">More</span>
+                  </div>
+                  <div className="tooltip">
+                    <span className="material-symbols-outlined hover small-icon">
+                      undo
+                    </span>
+                    <span className="tooltip-text">Undo</span>
+                  </div>
+                  <div className="tooltip">
+                    <span className="material-symbols-outlined hover small-icon">
+                      redo
+                    </span>
+                    <span className="tooltip-text">Redo</span>
+                  </div>
                 </div>
-                <div className="tooltip">
-                  <span className="material-symbols-outlined hover small-icon">
-                    person_add
-                  </span>
-                  <span className="tooltip-text">Collaborator</span>
-                </div>
-                <div className="tooltip">
-                  <span className="material-symbols-outlined hover small-icon">
-                    palette
-                  </span>
-                  <span className="tooltip-text">Change Color</span>
-                </div>
-                <div className="tooltip">
-                  <span className="material-symbols-outlined hover small-icon">
-                    image
-                  </span>
-                  <span className="tooltip-text">Add Image</span>
-                </div>
-                <div className="tooltip">
-                  <span className="material-symbols-outlined hover small-icon">
-                    archive
-                  </span>
-                  <span className="tooltip-text">Archive</span>
-                </div>
-                <div className="tooltip">
-                  <span className="material-symbols-outlined hover small-icon">
-                    more_vert
-                  </span>
-                  <span className="tooltip-text">More</span>
-                </div>
-                <div className="tooltip">
-                  <span className="material-symbols-outlined hover small-icon">
-                    undo
-                  </span>
-                  <span className="tooltip-text">Undo</span>
-                </div>
-                <div className="tooltip">
-                  <span className="material-symbols-outlined hover small-icon">
-                    redo
-                  </span>
-                  <span className="tooltip-text">Redo</span>
-                </div>
+                <button type="submit" className="close-btn">
+                  Close
+                </button>
               </div>
-              <button className="close-btn">close</button>
-            </div>
+            </>
           ) : (
-            <div className="form-actions">
-              <div className="tooltip">
-                <span className="material-symbols-outlined hover">
-                  check_box
-                </span>
-                <span className="tooltip-text">New List</span>
-              </div>
-              <div className="tooltip">
-                <span className="material-symbols-outlined hover">brush</span>
-                <span className="tooltip-text">New Drawing</span>
-              </div>
-              <div className="tooltip">
-                <span className="material-symbols-outlined hover">image</span>
-                <span className="tooltip-text">New Image</span>
+            <div className="form-inline">
+              <input
+                onChange={textChangeHandler}
+                value={text}
+                type="text"
+                className="note-text note-text-inline"
+                placeholder="Take a note..."
+              />
+              <div className="inline-actions">
+                <div className="tooltip">
+                  <span className="material-symbols-outlined hover">
+                    check_box
+                  </span>
+                  <span className="tooltip-text">New List</span>
+                </div>
+                <div className="tooltip">
+                  <span className="material-symbols-outlined hover">brush</span>
+                  <span className="tooltip-text">New Drawing</span>
+                </div>
+                <div className="tooltip">
+                  <span className="material-symbols-outlined hover">image</span>
+                  <span className="tooltip-text">New Image</span>
+                </div>
               </div>
             </div>
           )}

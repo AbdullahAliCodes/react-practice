@@ -1,10 +1,12 @@
 import "./Navbar.css";
 
-const Navbar = () => {
+const Navbar = (props) => {
+  const { toggleSidebar } = props;
+
   return (
     <nav>
       <div className="logo-area">
-        <div className="tooltip">
+        <div className="tooltip" onClick={toggleSidebar}>
           <span className="material-symbols-outlined hover">menu</span>
           <span className="tooltip-text">Main Menu</span>
         </div>
@@ -29,7 +31,7 @@ const Navbar = () => {
           <span className="material-symbols-outlined hover">refresh</span>
           <span className="tooltip-text">Refresh</span>
         </div>
-        <div className="tooltip">
+        <div className="tooltip view-list-icon">
           <span className="material-symbols-outlined hover">view_agenda</span>
           <span className="tooltip-text">View List</span>
         </div>
@@ -37,8 +39,6 @@ const Navbar = () => {
           <span className="material-symbols-outlined hover">settings</span>
           <span className="tooltip-text">Settings</span>
         </div>
-      </div>
-      <div className="profile-actions-area">
         <div className="tooltip">
           <span className="material-symbols-outlined hover">apps</span>
           <span className="tooltip-text">Apps</span>

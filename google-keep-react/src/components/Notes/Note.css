@@ -1,0 +1,34 @@
+.colour-board {
+  display: flex;
+  position: absolute;
+  background-color: #ffffff;
+  border: 1px solid #e0e1e0;
+  box-shadow:
+    0 1px 2px 0 rgba(60, 64, 67, 0.302),
+    0 2px 6px 2px rgba(60, 64, 67, 0.149);
+  border-radius: 8px;
+  padding: 5px 10px;
+}
+.colour-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  margin: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.colour-circle:hover {
+  border: 2px solid #212121;
+}
+
+.no-colour-circle {
+  border: 2px solid rgb(224, 224, 224);
+  cursor: pointer;
+}
+
+.no-colour {
+  width: 17px;
+  height: 17px;
+}

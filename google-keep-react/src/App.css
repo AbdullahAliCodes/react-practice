@@ -1,0 +1,16 @@
+.main-area {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+}
+
+.notes-grid {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.sidebar-area {
+  min-width: 85px;
+}

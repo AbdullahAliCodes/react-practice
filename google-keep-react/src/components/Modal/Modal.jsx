@@ -19,6 +19,7 @@ const Modal = (props) => {
     >
       <div
         className="modal-content"
+        onClick={(e) => e.stopPropagation()}
         onMouseOver={handleMouseOverModal}
         onMouseOut={handleMouseOutModal}
       >

@@ -7,12 +7,14 @@
 }
 
 .note {
-  background-color: white;
   margin: 10px;
   width: 280px;
   border: 1px solid #e0e1e0;
   border-radius: 8px;
   position: relative;
+  padding: 12px 16px 8px;
+  box-sizing: border-box;
+  font-family: "Google Sans", sans-serif;
 }
 .note:hover {
   cursor: pointer;
@@ -23,29 +25,76 @@
 
 .note .title {
   width: 100%;
-  margin: 15px 0 0 15px;
+  margin: 0;
+  font-family: "Google Sans", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.00625em;
+  color: #202124;
 }
 
 .note .text {
   width: 100%;
-  margin: 10px 0 0 15px;
+  margin: 8px 0 0;
+  font-family: "Google Sans", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.0142857143em;
+  color: #202124;
+  word-wrap: break-word;
 }
 
 .note .note-footer {
-  margin-top: 15px;
+  margin-top: 12px;
   display: flex;
-  padding: 0;
-  justify-content: center;
+  width: 100%;
+  padding: 4px 0 4px;
+  box-sizing: border-box;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0;
   visibility: hidden;
 }
 
+.note-footer .tooltip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
 .note-footer .material-symbols-outlined {
-  color: #5f6368;
-  font-size: 0.9rem;
+  color: #1c1e1f;
+  font-size: 20px;
+  padding: 8px;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+}
+
+.note-footer .hover:hover {
+  color: #1c1e1f;
 }
 
 .note .check-circle {
   position: absolute;
   top: -20px;
   left: -20px;
+}
+
+@media screen and (max-width: 599px) {
+  .notes {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+  }
+  .note {
+    width: 100%;
+    margin: 10px 0;
+  }
 }

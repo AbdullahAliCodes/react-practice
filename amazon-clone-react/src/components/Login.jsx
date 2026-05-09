@@ -1,28 +1,37 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AmazonLogo from "../assets/amazon-logo-large.png";
 
 import "./Login.css";
 
 import Modal from "./Modal";
-// import Wrapper from "./helpers/Wrapper";
 
 const Login = () => {
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [formIsValid, setIsFormIsValid] = useState(false);
+
+  useEffect(() => {
+    setIsFormIsValid(email.includes("@") && password.trim().length > 6);
+  }, [email, password]);
+
+  const emailChangeHandler = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const passwordChangeHandler = (e) => {
+    setPassword(e.target.value);
+  };
 
   const signIn = (e) => {
     e.preventDefault();
+    console.log(formIsValid);
     // using refs with input to interact with the dom is called uncontrolled component
     // why uncontrolled? becuase the input field is handled in the dom itself and the state is not managed by react
     // using value={} and onChange={} with managing the state - would be a controlled components
-    const enteredEmail = emailRef.current.value;
-    const passwordEmail = passwordRef.current.value;
   };
 
   return (
-    // <Wrapper></Wrapper> -> this is how a wrapper would work, if we were using a custom Wrapper.jsx
-    // But we mainly use <React.Fragment> -> <> </>
     <div className="login">
       <Link to="/home">
         <img src={AmazonLogo} alt="Amazon Logo" className="login-logo" />
@@ -32,9 +41,13 @@ const Login = () => {
         <h1>Sign in</h1>
         <form>
           <h5>Email</h5>
-          <input type="email" ref={emailRef} />
+          <input type="email" value={email} onChange={emailChangeHandler} />
           <h5>Password</h5>
-          <input type="password" ref={passwordRef} />
+          <input
+            type="password"
+            value={password}
+            onChange={passwordChangeHandler}
+          />
           <button type="submit" className="login-signInButton" onClick={signIn}>
             Sign in
           </button>
