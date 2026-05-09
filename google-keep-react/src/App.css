@@ -1,7 +1,17 @@
+.navbar-area {
+  flex-shrink: 0;
+  z-index: 100;
+  background: var(--bg);
+}
+
 .main-area {
   display: flex;
   width: 100%;
   min-width: 0;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .notes-grid {

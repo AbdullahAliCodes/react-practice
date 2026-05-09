@@ -9,7 +9,7 @@
   color: var(--muted);
   width: 60px;
   height: calc(100% - 64px);
-  overflow-x: hidden;
+  overflow: hidden;
   transition: 0.3s;
 }
 
@@ -29,6 +29,7 @@
   align-items: center;
   cursor: pointer;
   white-space: nowrap;
+  min-width: 0;
 }
 
 .sidebar-item .sidebar-text {
@@ -38,7 +39,10 @@
   line-height: 1.25rem;
   letter-spacing: 0.00625em;
   color: var(--text);
-  width: 250px;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 /* Same icon column width on every row so labels line up */
 .sidebar-item .material-symbols-outlined {
@@ -87,8 +91,15 @@
   background-color: var(--sidebar-active);
 }
 
-/* Theme toggle: pinned to bottom of the sidebar, icon-only */
+/* Theme toggle: pinned to the bottom of the sidebar, icon-only */
 .sidebar .theme-toggle {
   margin-top: auto;
   margin-bottom: 12px;
+}
+
+/* Tooltip opens upward so it is not clipped by overflow:hidden on .sidebar */
+.sidebar .theme-toggle .tooltip-text {
+  top: auto;
+  bottom: 100%;
+  margin-bottom: 4px;
 }

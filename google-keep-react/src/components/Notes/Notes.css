@@ -4,6 +4,8 @@
   justify-content: center;
   flex-wrap: wrap;
   padding: 0 50px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .note {

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { arrayMove } from "@dnd-kit/sortable";
 
 import Navbar from "./components/Navbar/Navbar";
 import Sidebar from "./components/Sidebar/Sidebar";
@@ -28,6 +30,12 @@ function App() {
   const [cursorOnModal, setCursorOnModal] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  useEffect(() => {
+    if (!isModalOpen) return;
+    document.body.classList.add("modal-open");
+    return () => document.body.classList.remove("modal-open");
+  }, [isModalOpen]);
+
   const toggleSidebar = () => {
     setIsSidebarOpen((prevState) => !prevState);
   };
@@ -56,6 +64,16 @@ function App() {
         };
       }),
     );
+  };
+
+  const reorderNotes = (activeId, overId) => {
+    if (!overId || activeId === overId) return;
+    setNotes((prev) => {
+      const oldIndex = prev.findIndex((n) => n.id === activeId);
+      const newIndex = prev.findIndex((n) => n.id === overId);
+      if (oldIndex === -1 || newIndex === -1) return prev;
+      return arrayMove(prev, oldIndex, newIndex);
+    });
   };
 
   const deleteNote = (id) => {
@@ -88,18 +106,21 @@ function App() {
             selectedNote={selectedNote}
             setSelectedNote={setSelectedNote}
             editNote={editNote}
+            reorderNotes={reorderNotes}
           />
-          {isModalOpen && (
-            <Modal
-              isModalOpen={isModalOpen}
-              selectedNote={selectedNote}
-              toggleModal={toggleModal}
-              setCursorOnModal={setCursorOnModal}
-              editNote={editNote}
-            />
-          )}
         </div>
       </div>
+      {isModalOpen &&
+        createPortal(
+          <Modal
+            isModalOpen={isModalOpen}
+            selectedNote={selectedNote}
+            toggleModal={toggleModal}
+            setCursorOnModal={setCursorOnModal}
+            editNote={editNote}
+          />,
+          document.body,
+        )}
     </>
   );
 }

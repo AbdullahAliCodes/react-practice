@@ -1,4 +1,7 @@
 import React, { useContext, useState } from "react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
 import { coloursLight, coloursDark } from "../../constants/NoteColours";
 import { ColourCircle } from "./ColourCircle";
 import { ThemeContext } from "../../context/ThemeContext";
@@ -7,7 +10,7 @@ import { resolveNoteColor } from "../../utils/resolveNoteColor";
 import "./Note.css";
 
 const Note = (props) => {
-  const { toggleModal, note, setSelectedNote, editNote } = props;
+  const { toggleModal, note, setSelectedNote, editNote, isOverlay } = props;
   const { theme } = useContext(ThemeContext);
 
   const [hoverActive, setHoverActive] = useState(false);
@@ -17,44 +20,70 @@ const Note = (props) => {
   const palette = theme === "dark" ? coloursDark : coloursLight;
   const displayBg = resolveNoteColor(note.backgroundColor, theme);
 
+  const sortable = useSortable({ id: note.id, disabled: isOverlay });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = sortable;
+
+  const style = isOverlay
+    ? { background: displayBg, cursor: "grabbing" }
+    : {
+        background: displayBg,
+        transform: CSS.Transform.toString(transform),
+        transition,
+        opacity: isDragging ? 0 : 1,
+      };
+
   const noteClickHandler = () => {
+    if (isDragging) return;
     toggleModal();
     setSelectedNote(note);
   };
 
   const noteMouseOverHandler = () => {
+    if (isDragging) return;
     setHoverActive(true);
   };
   const noteMouseOutHandler = () => {
     setHoverActive(false);
   };
-  const deleteHandler = () => {
+  const deleteHandler = (e) => {
+    e.stopPropagation();
     props.deleteNote(note.id);
-    toggleModal();
   };
 
-  const toggleColourBoard = () => {
+  const toggleColourBoard = (e) => {
+    e.stopPropagation();
     setIsColourBoardActive((prevState) => !prevState);
-    toggleModal();
   };
 
   const clearNoteColourHandler = (e) => {
     e.stopPropagation();
     editNote(note, "#fff");
     setNoteColour("#fff");
-    // toggleModal();
   };
+
+  const showFooter = hoverActive && !isDragging && !isOverlay;
+  const showColourBoard = isColourBoardActive && !isDragging && !isOverlay;
 
   return (
     <div
-      className="note"
-      style={{ background: displayBg }}
+      ref={isOverlay ? undefined : setNodeRef}
+      className={`note${isOverlay ? " note--overlay" : ""}`}
+      style={style}
       id={props.id}
       onClick={noteClickHandler}
       onMouseOver={noteMouseOverHandler}
       onMouseOut={noteMouseOutHandler}
+      {...(isOverlay ? {} : attributes)}
+      {...(isOverlay ? {} : listeners)}
     >
-      {hoverActive && (
+      {hoverActive && !isOverlay && (
         <span className="material-symbols-outlined check-circle">
           check_circle
         </span>
@@ -65,30 +94,22 @@ const Note = (props) => {
 
       <div
         className="note-footer"
-        style={{ visibility: hoverActive ? "visible" : "hidden" }}
+        style={{ visibility: showFooter ? "visible" : "hidden" }}
       >
         <div className="tooltip" onClick={toggleColourBoard}>
-          <span className="material-symbols-outlined hover">
-            palette
-          </span>
+          <span className="material-symbols-outlined hover">palette</span>
           <span className="tooltip-text">Change Color</span>
         </div>
         <div className="tooltip">
-          <span className="material-symbols-outlined hover">
-            add_alert
-          </span>
+          <span className="material-symbols-outlined hover">add_alert</span>
           <span className="tooltip-text">Remind me</span>
         </div>
         <div className="tooltip">
-          <span className="material-symbols-outlined hover">
-            person_add
-          </span>
+          <span className="material-symbols-outlined hover">person_add</span>
           <span className="tooltip-text">Collaborator</span>
         </div>
         <div className="tooltip">
-          <span className="material-symbols-outlined hover">
-            image
-          </span>
+          <span className="material-symbols-outlined hover">image</span>
           <span className="tooltip-text">Add Image</span>
         </div>
         <div className="tooltip" onClick={deleteHandler}>
@@ -98,15 +119,13 @@ const Note = (props) => {
           <span className="tooltip-text">Archive</span>
         </div>
         <div className="tooltip">
-          <span className="material-symbols-outlined hover">
-            more_vert
-          </span>
+          <span className="material-symbols-outlined hover">more_vert</span>
           <span className="tooltip-text">More</span>
         </div>
       </div>
 
-      {isColourBoardActive && (
-        <div className="colour-board">
+      {showColourBoard && (
+        <div className="colour-board" onClick={(e) => e.stopPropagation()}>
           <span
             className="colour-circle no-colour-circle"
             onClick={clearNoteColourHandler}

@@ -16,10 +16,23 @@
   padding: 16px 16px 8px;
   box-sizing: border-box;
   font-family: "Google Sans", sans-serif;
+  cursor: grab;
+  touch-action: manipulation;
 }
 .note:hover {
-  cursor: pointer;
   box-shadow: var(--shadow-1);
+}
+.note:active {
+  cursor: grabbing;
+}
+
+/* DragOverlay clone */
+.note--overlay {
+  cursor: grabbing;
+  box-shadow:
+    0 8px 16px 0 rgba(0, 0, 0, 0.24),
+    0 4px 8px 0 rgba(0, 0, 0, 0.18);
+  transform: rotate(2deg);
 }
 
 .note .title {
@@ -85,11 +98,41 @@
   left: -20px;
 }
 
-/* Colour board respects theme */
+/* Colour board */
 .colour-board {
+  display: flex;
+  position: absolute;
   background-color: var(--surface);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-1);
+  border-radius: 8px;
+  padding: 5px 10px;
+  z-index: 2;
+}
+
+.colour-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  margin: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.colour-circle:hover {
+  border: 2px solid #212121;
+}
+
+.no-colour-circle {
+  border: 2px solid rgb(224, 224, 224);
+  cursor: pointer;
+}
+
+.no-colour {
+  width: 17px;
+  height: 17px;
 }
 
 html[data-theme="dark"] .no-colour-circle {

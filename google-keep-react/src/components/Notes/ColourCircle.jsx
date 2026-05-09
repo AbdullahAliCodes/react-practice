@@ -1,13 +1,12 @@
 import React from "react";
 
 export const ColourCircle = (props) => {
-  const { note, colour, setNoteColour, toggleModal, editNote } = props;
+  const { note, colour, setNoteColour, editNote } = props;
 
-  const noteColourHandler = () => {
+  const noteColourHandler = (e) => {
+    e.stopPropagation();
     editNote(note, colour);
     setNoteColour(colour);
-    toggleModal();
-    console.log("Colour clicked: ", colour);
   };
 
   return (

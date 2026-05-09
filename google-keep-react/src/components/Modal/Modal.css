@@ -1,12 +1,13 @@
 /* MODAL CONTENT  */
 .modal {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
+  z-index: 1000;
   background-color: var(--modal-overlay);
   width: 100%;
   height: 100%;
   visibility: hidden;
+  pointer-events: none;
 }
 
 .modal .modal-content {
@@ -21,4 +22,5 @@
 
 .open-modal {
   visibility: visible;
+  pointer-events: auto;
 }
